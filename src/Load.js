@@ -25,7 +25,7 @@ class Load extends Phaser.Scene {
         this.load.texture('progress-bar', 'progress-bar')
         this.load.texture('progress-bar-internal', 'progress-bar-internal')
         // Player Sprites
-        
+
     }
     /**
      * Creates all global assets needed in the game.
@@ -37,5 +37,6 @@ class Load extends Phaser.Scene {
         //     repeat: -1,
         //     frames: this.anims.generateFrameNumbers('hero', { start: 0, end: 3 }),
         // })
+        this.scene.start('MainMenu')
     }
 }
