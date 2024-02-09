@@ -1,7 +1,7 @@
 "use strict"
 
 let config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL, // Use WEBGL
     width: 1280,
     height: 720,
     scene: [MainMenu, Play, GameOverMenu, CreditsMenu],
