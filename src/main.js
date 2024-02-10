@@ -1,6 +1,6 @@
 "use strict"
 
-let config = {
+const config = {
     type: Phaser.WEBGL, // Use WEBGL
     width: 1280,
     height: 720,
@@ -8,17 +8,18 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {x:0, y: 0}
-        }
+            gravity: {x:0, y: 0},
+            debug: true,
+        },
     },
     render: {
         pixelArt: true,
     },
 }
 
-let game = new Phaser.Game(config)
+const game = new Phaser.Game(config)
 
-var gameSettings = {
+const gameSettings = {
     width: config.width,
     height: config.height
 }
