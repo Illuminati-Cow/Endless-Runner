@@ -18,6 +18,7 @@ class TerrainGenerator {
      */
     constructor(initialTerrainPiece, terrainPieces, context) {
         this.currentTerrain = initialTerrainPiece
+        this.currentTerrain.enable() // Enable first terrain
         this.lastTerrain = undefined
         this.scene = context
     }
@@ -40,7 +41,12 @@ class TerrainGenerator {
             // Select random terrain piece that has a compatible connection to the current piece and is not the current or last terrain.
             // Object property filtering from GitHub Copilot
             let validPieces = Object.entries(this.terrainPieces).filter(([key, value]) => {
-                return this.currentTerrain.connectsTo == value.connectsFrom && this.currentTerrain != value && lastTerrain != value;
+                return this.currentTerrain.connectsTo == value.connectsFrom;
+                
+                // SWAP LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                // For testing with a small number of assets allow duplicates REMOVE
+                //return this.currentTerrain.connectsTo == value.connectsFrom && this.currentTerrain != value && lastTerrain != value;
             });
             let terrain = validPieces[Math.floor(Math.random() * validPieces.length)][0];
             this.currentTerrain = terrain;
