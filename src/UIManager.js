@@ -18,6 +18,8 @@ class UIManager {
         if (this.Instance != null) {
             this = null
             return null
+        } else {
+            this.Instance = this
         }
         this.#menu = menus
         this.#hud = huds
