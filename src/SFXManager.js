@@ -9,7 +9,7 @@ class SFXManager {
             this = null
             return null
         } else {
-            this.Instance = this
+            SFXManager.Instance = this
         }
         this.#sfx = sfx
         this.currentMenu = startingMenu

@@ -10,8 +10,8 @@ class UIManager {
     /**
      * Represents the UIManager class. If an instance of the manager already exists, this instance will be nullified.
      * @constructor
-     * @param {Array.<String>} menus - The array of menus.
-     * @param {Array.<String>} huds - The array of HUDs.
+     * @param {Object} menus - The dictionary of menus.
+     * @param {Object} huds - The dictionary of HUDs.
      * @param {Object} [startingMenu=menus[0]] - The starting menu. Defaults to the first menu in menus.
      */
     constructor(menus, huds, startingMenu=menus[0]) {
@@ -19,7 +19,7 @@ class UIManager {
             this = null
             return null
         } else {
-            this.Instance = this
+            UIManager.Instance = this
         }
         this.#menu = menus
         this.#hud = huds
