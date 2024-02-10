@@ -15,17 +15,17 @@ class Player extends Phaser.Physics.Arcade.Sprite  {
             idle: new IdleState(this.stateMachine),
             run: new RunState(this.stateMachine),
             jump: new JumpState(this.stateMachine),
-        }, [this])
+        }, [this]);
     }
 }
 
 class IdleState extends State {
-    
+
     constructor(stateMachine) {
         super(stateMachine)
         this.transitions = {
             'running': true,
-            'jumping': true
+            'jumping': true,
         }
     }
 
