@@ -9,6 +9,17 @@ class Load extends Phaser.Scene {
         this.progressBarInternal.scaleX(0)
         this.progressBarInternal.leftWidth = 5
         this.progressBarInternal.rightWidth = 5
+        // Create Manager Singletons
+        new UIManager({
+            menu: new MainMenu(),
+            credits: new CreditsMenu(),
+            gameover: new GameOverMenu(),
+        }, {
+            // ADD HUD
+        });
+        new SFXManager({
+            // ADD SFX
+        });
     }
 
     /**
