@@ -11,8 +11,9 @@ class Load extends Phaser.Scene {
         this.progressBarInternal.rightWidth = 5
         // Create Manager Singletons
         new UIManager({
-            menu: new MainMenu(),
+            main: new MainMenu(),
             credits: new CreditsMenu(),
+            pause: new PauseMenu(),
             gameover: new GameOverMenu(),
         }, {
             // ADD HUD
