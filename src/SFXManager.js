@@ -6,12 +6,11 @@ class SFXManager {
     
     constructor(sfx) {
         if (this.Instance != null) {
-            this = null
             return null
         } else {
             SFXManager.Instance = this
         }
         this.#sfx = sfx
-        this.currentMenu = startingMenu
+        this.currentlyPlaying = {};
     }
 }
