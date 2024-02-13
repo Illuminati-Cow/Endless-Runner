@@ -16,7 +16,6 @@ class UIManager {
      */
     constructor(menus, huds, startingMenu=menus[0]) {
         if (this.Instance != null) {
-            this = null
             return null
         } else {
             UIManager.Instance = this
