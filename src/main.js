@@ -4,7 +4,7 @@ const config = {
     type: Phaser.WEBGL, // Use WEBGL
     width: 1280,
     height: 720,
-    scene: [MainMenu, Play, GameOverMenu, CreditsMenu],
+    scene: [Load, MainMenu, Play, GameOverMenu, CreditsMenu, PauseMenu],
     physics: {
         default: 'arcade',
         arcade: {
