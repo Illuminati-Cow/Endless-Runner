@@ -42,12 +42,13 @@ class Load extends Phaser.Scene {
         });
         // Load assets
         this.load.path = './assets/'
-
         // Physics Shapes 
         // Reference: https://github.com/phaserjs/examples/blob/master/public/src/physics/matterjs/advanced%20shape%20creation.js
         this.load.json('terrain-shapes', 'physics/terrain-shapes.json')
         // Player Sprites
         //this.load.spritesheet('player-sheet', 'player.png')
+        // Button
+        this.load.image('button', 'button.png')
     }
     /**
      * Creates all global assets needed in the game.
