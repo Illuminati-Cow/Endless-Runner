@@ -38,7 +38,7 @@ class Load extends Phaser.Scene {
             this.progressBar.fillRect(barConfig.x, barConfig.y, barConfig.width * progress, barConfig.height);
         });
         this.load.on('complete', () => {
-            //this.scene.start('MainMenu')
+            this.scene.start('MainMenu')
         });
         // Load assets
         this.load.path = './assets/'
