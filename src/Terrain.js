@@ -77,7 +77,7 @@ class TerrainGenerator {
  * @property {number} exitPositionY - The y-coordinate of the exit door.
  */
 
-class TerrainPiece extends Phaser.Physics.Matter.Image {
+class TerrainPiece extends Phaser.GameObjects.Container {
     /**
      * Use to denote the direction of terrain connections.
      * ```javascript
@@ -99,11 +99,10 @@ class TerrainPiece extends Phaser.Physics.Matter.Image {
      * @param {TerrainConfig} terrainConfig - The configuration object for the terrain piece.
     */
     constructor(scene, x, y, texture, terrainConfig) {
-        super(scene.matter.world, x, y, texture, 0, {shape: terrainConfig.insideShape});
+        let outside = scene.matter.add.image(0, 0, texture, 0, {shape: terrainConfig.outsideShape});
+        let inside = scene.matter.add.image(0, 0, texture, 0, { shape: terrainConfig.insideShape})
+        super(scene, x, y, [inside, outside]);
         scene.add.existing(this);
-        let out = scene.matter.add.image(x, y, '', null, {shape: terrainConfig.outsideShape});
-        out.setOrigin(0, 0);
-        scene.matter.alignBody(out, 0, 0, Phaser.Display.Align.TOP_LEFT);
         this.#connectsTo = terrainConfig.connectsTo;
         this.#connectsFrom = terrainConfig.connectsFrom;
         this.entrancePosition = {x: terrainConfig.entrancePositionX, y: terrainConfig.entrancePositionY};
@@ -130,10 +129,10 @@ class TerrainPiece extends Phaser.Physics.Matter.Image {
      * Disables the Terrain object and hides it.
      */
     disable() {
-        // this.anims.stop();
-        this.setActive(false);
-        this.setVisible(false);
-        this.body.enable = false;
+        // // this.anims.stop();
+        // this.setActive(false);
+        // this.setVisible(false);
+        // this.body.enable = false;
     }
 
     /**
@@ -141,8 +140,8 @@ class TerrainPiece extends Phaser.Physics.Matter.Image {
      */
     enable() {
         // this.anims.play(this.#animationConfig);
-        this.setActive(true);
-        this.setVisible(true);
-        this.body.enable = true;
+        // this.setActive(true);
+        // this.setVisible(true);
+        // this.body.enable = true;
     }
 }

@@ -20,7 +20,7 @@ class Play extends Phaser.Scene {
         // Get terrain shapes
         let terrainShapes = this.cache.json.get('terrain-shapes');
         console.log(terrainShapes);
-        this.terrainGenerator = new TerrainGenerator(new TerrainPiece(this, 0, 0, 'start-level', {
+        this.terrainGenerator = new TerrainGenerator(new TerrainPiece(this, 50, 50, 'start-level', {
             connectsTo: TerrainPiece.directions.E,
             connectsFrom: TerrainPiece.directions.W,
             entrancePositionX: 0,
