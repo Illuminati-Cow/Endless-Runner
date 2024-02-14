@@ -11,27 +11,29 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        // Terrain configurations
-        let startPieceConfig = [
-            this, 
-            0, 
-            0, 
-            'start-terrain', 
-            TerrainPiece.directions.E, 
-            TerrainPiece.directions.W,
-            0,
-            0
-        ];
         // Player
         this.Player = new Player(this, gameSettings.spawnLocation.x, gameSettings.spawnLocation.y, 'player');
         // Follow player with main camera
-        this.cameras.main.startFollow(this.Player, false, gameSettings.cameraFollowStrength.x, gameSettings.cameraFollowStrength.y)
+        //this.cameras.main.startFollow(this.Player, false, gameSettings.cameraFollowStrength.x, gameSettings.cameraFollowStrength.y)
         this.cameras.main.setBackgroundColor(959e94);
-        this.terrainGenerator = new TerrainGenerator(new TerrainPiece(...startPieceConfig), {
+        this.cameras.main.zoom = 0.5;
+        // Get terrain shapes
+        let terrainShapes = this.cache.json.get('terrain-shapes');
+        console.log(terrainShapes);
+        this.terrainGenerator = new TerrainGenerator(new TerrainPiece(this, 0, 0, 'start-level', {
+            connectsTo: TerrainPiece.directions.E,
+            connectsFrom: TerrainPiece.directions.W,
+            entrancePositionX: 0,
+            entrancePositionY: 0,
+            exitPositionX: 0,
+            exitPositionY: 0,
+            insideShape: terrainShapes.startLevelInside,
+            outsideShape: terrainShapes.startLevelOutside,
+        }), {
             // FILL WITH TERRAIN OBJECTS
         }, 3, this);
         // Turn off world bounds and handle Player out of bounds condition in Player
-        this.matter.world.setBounds(0,0,0,0,0,false,false,false,false)
+        //this.matter.world.setBounds(0,0,0,0,0,false,false,false,false)
         /**
          * Delta time in miliseconds
          */

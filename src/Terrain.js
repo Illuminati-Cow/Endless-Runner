@@ -14,7 +14,7 @@ class TerrainGenerator {
      * Generates terrain for the play scene.
      * @constructor
      * @param {TerrainPiece} initialTerrainPiece - The unique initial terrain piece.
-     * Note: If you would like this to be in the pool of spawnable terrain
+     * Note: If you would like this to be in the pool of spawnable terrain then add it to the terrainPieces dictionary.
      * @param {Object} terrainPieces - The dictionary of TerrainPiece objects.
      * @param {number} maxTerrainActive - The maximum number of terrain that can be active at one time.
      * @param {Phaser.Scene} context - The scene in which terrain should be created.
@@ -25,8 +25,6 @@ class TerrainGenerator {
         this.maxTerrain = maxTerrainActive;
         initialTerrainPiece.enable(); // Enable first terrain
         this.scene = context;
-        // Get terrain shapes
-        this.shapes = this.scene.cache.json.get('terrain-shapes')
     }
 
     /**
@@ -42,7 +40,7 @@ class TerrainGenerator {
             // Generate terrain specified
             let newTerrain = this.terrain[key];
             newTerrain.enable();
-            newTerrain.setPosition(prevTerrain.doorPosition.x, prevTerrain.doorPosition.y);
+            newTerrain.setPosition(prevTerrain.exitPosition.x, prevTerrain.exitPosition.y);
             this.currentTerrain.push(newTerrain);
         }
         else {
@@ -59,13 +57,25 @@ class TerrainGenerator {
             // The 1st index of the selected key-value pair array will be the TerrainPiece
             let newTerrain = validPieces[Math.floor(Math.random() * validPieces.length)][1];
             newTerrain.enable();
-            newTerrain.setPosition(prevTerrain.doorPosition.x, prevTerrain.doorPosition.y);
+            newTerrain.setPosition(prevTerrain.exitPosition.x, prevTerrain.exitPosition.y);
             this.currentTerrain.push(newTerrain);
         }
         if (this.maxTerrain > this.currentTerrain.length)
             this.currentTerrain.shift().disable();
     }
 }
+
+/**
+ * @typedef {Object} TerrainConfig
+ * @property {string} insideShape - The shape of the interior of the terrain piece.
+ * @property {string} outsideShape - The shape of the exterior of the terrain piece.
+ * @property {TerrainPiece.directions} connectsTo - The direction the terrain connects to.
+ * @property {TerrainPiece.directions} connectsFrom - The direction the terrain connects from.
+ * @property {number} entrancePositionX - The x-coordinate of the entrance door.
+ * @property {number} entrancePositionY - The y-coordinate of the entrance door.
+ * @property {number} exitPositionX - The x-coordinate of the exit door.
+ * @property {number} exitPositionY - The y-coordinate of the exit door.
+ */
 
 class TerrainPiece extends Phaser.Physics.Matter.Image {
     /**
@@ -78,11 +88,7 @@ class TerrainPiece extends Phaser.Physics.Matter.Image {
     #connectsTo
     #connectsFrom
     /**
-     * @type {Phaser.Types.Animations.PlayAnimationConfig}
-     */
-    #animationConfig
-    /**
-     * Represents a piece of terrain. Set the origin of the terrain to the center of the
+     * Represents a piece of terrain. Sets the origin of the terrain to the center of the
      * entrance door so that the terrain aligns correctly. Use TerrainPiece.directions value for the
      * direction of connections. Starts disabled so it can be pooled in a TerrainGenerator.
      * @constructor
@@ -90,19 +96,20 @@ class TerrainPiece extends Phaser.Physics.Matter.Image {
      * @param {number} x - The x-coordinate of the object.
      * @param {number} y - The y-coordinate of the object.
      * @param {string} texture - The string name of the texture for the object.
-     * @param {}
-     * @param {number} connectsTo - The direction this terrain can connect to (the direction of its exit).
-     * @param {number} connectsFrom - The direction this terrain can be connected to (the direction of its entrance).
-     * @param {number} doorPositionX - The x-coordinate of the center of the exit door.
-     * @param {number} doorPositionY - The y-coordinate of the center of the exit door. 
+     * @param {TerrainConfig} terrainConfig - The configuration object for the terrain piece.
     */
-    constructor(scene, x, y, texture, insideShape, outsideShape, connectsTo, connectsFrom, doorPositionX, doorPositionY) {
-        super(scene.matter.world, x, y, texture, 0);
+    constructor(scene, x, y, texture, terrainConfig) {
+        super(scene.matter.world, x, y, texture, 0, {shape: terrainConfig.insideShape});
         scene.add.existing(this);
-        scene.matter.add.gameObject(this, );
-        this.#connectsTo = connectsTo;
-        this.#connectsFrom = connectsFrom;
-        this.doorPosition = {x: doorPositionX, y: doorPositionY};
+        let out = scene.matter.add.image(x, y, '', null, {shape: terrainConfig.outsideShape});
+        out.setOrigin(0, 0);
+        scene.matter.alignBody(out, 0, 0, Phaser.Display.Align.TOP_LEFT);
+        this.#connectsTo = terrainConfig.connectsTo;
+        this.#connectsFrom = terrainConfig.connectsFrom;
+        this.entrancePosition = {x: terrainConfig.entrancePositionX, y: terrainConfig.entrancePositionY};
+        this.exitPosition = {x: terrainConfig.exitPositionX, y: terrainConfig.exitPositionY};
+        //this.setOrigin(this.entrancePosition.x/this.width, this.entrancePosition.y/this.height);
+        //this.setPosition(x, y);
         // this.#animationConfig = {
         //     key: texture + '-active',
         //     frameRate: 24,

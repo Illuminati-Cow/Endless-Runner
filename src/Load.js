@@ -45,7 +45,10 @@ class Load extends Phaser.Scene {
         // Physics Shapes 
         // Reference: https://github.com/phaserjs/examples/blob/master/public/src/physics/matterjs/advanced%20shape%20creation.js
         this.load.json('terrain-shapes', 'physics/terrain-shapes.json')
+        // Terrain Sprites
+        this.load.image('start-level', 'terrain/start-level.png')
         // Player Sprites
+        this.load.image('player', 'player.png')
         //this.load.spritesheet('player-sheet', 'player.png')
         // Button
         this.load.image('button', 'button.png')
@@ -65,6 +68,42 @@ class Load extends Phaser.Scene {
         });
         new SFXManager({
             // ADD SFX
+        });
+        this.anims.create({
+            key: 'run-right',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+        });
+        this.anims.create({
+            key: 'run-left',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+        });
+        this.anims.create({
+            key: 'idle-right',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+        });
+        this.anims.create({
+            key: 'idle-left',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+        });
+        this.anims.create({
+            key: 'jump-right',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+        });
+        this.anims.create({
+            key: 'jump-left',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
         });
         // this.anims.create({
         //     key: 'walk-down',
