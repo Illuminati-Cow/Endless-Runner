@@ -2,8 +2,8 @@
 
 const config = {
     type: Phaser.WEBGL, // Use WEBGL
-    width: 1280,
-    height: 720,
+    width: 960,
+    height: 540,
     scene: [Load, MainMenu, Play, GameOverMenu, CreditsMenu, PauseMenu],
     physics: {
         default: 'arcade',
@@ -27,8 +27,7 @@ const gameSettings = {
         left: Phaser.Input.Keyboard.KeyCodes.A,
         right: Phaser.Input.Keyboard.KeyCodes.D,
         down: Phaser.Input.Keyboard.KeyCodes.S,
-        jump: Phaser.Input.Keyboard.KeyCodes.W,
-        grapple: Phaser.Input.Keyboard.KeyCodes.SPACE,
+        up: Phaser.Input.Keyboard.KeyCodes.W,
     },
-    spawnLocation: {x: 500, y: 500},
+    spawnLocation: {x: config.width/5, y: config.height/2},
 }
