@@ -1,5 +1,7 @@
 "use strict"
-
+/**
+ * @type{Phaser.Core.Config}
+ */
 const config = {
     type: Phaser.WEBGL, // Use WEBGL
     width: 960,
@@ -12,9 +14,7 @@ const config = {
             debug: true,
         },
     },
-    render: {
-        pixelArt: true,
-    },
+    pixelArt: true
 }
 
 const game = new Phaser.Game(config)
