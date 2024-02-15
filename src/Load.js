@@ -37,34 +37,35 @@ class Load extends Phaser.Scene {
             }
             this.progressBar.fillRect(barConfig.x, barConfig.y, barConfig.width * progress, barConfig.height);
         });
-        this.load.on('complete', () => {
-            this.scene.start('MainMenu')
-        });
+        this.load.on('complete', () => {this.scene.stop(this)})
         // Load assets
         this.load.path = './assets/'
 
         // Physics Shapes 
         // Reference: https://github.com/phaserjs/examples/blob/master/public/src/physics/matterjs/advanced%20shape%20creation.js
-        this.load.json('terrain-shapes', 'physics/terrain-shapes.json')
+        this.load.json('terrain-shapes', 'physics/terrain-shapes.json');
         // Player Sprites
         //this.load.spritesheet('player-sheet', 'player.png')
+        this.load.image('button', 'button.png');
+        this.load.image('red-arrow', 'red-arrow.png');
+        this.load.image('red-particle', 'red-particle.png')
     }
     /**
      * Creates all global assets needed in the game.
      */
     create() {
         // Create Manager Singletons
-        new UIManager({
-            main: new MainMenu(),
-            credits: new CreditsMenu(),
-            pause: new PauseMenu(),
-            gameover: new GameOverMenu(),
+        new UIManager(this.scene, {
+            MainMenu: new MainMenu(),
+            CreditsMenu: new CreditsMenu(),
+            PauseMenu: new PauseMenu(),
+            GameOverMenu: new GameOverMenu(),
         }, {
             // ADD HUD
-        });
+        }, 'MainMenu');
         new SFXManager({
             // ADD SFX
-        });
+        }); 
         // this.anims.create({
         //     key: 'walk-down',
         //     frameRate: 8,
