@@ -1,4 +1,25 @@
 "use strict"
+
+/**
+ * Speed by Cole Falxa-Sturken
+ * This project took me at least 40 hours do to scrapping a previous
+ * project utilizing matter.js physics. It would not have been completed
+ * within the time frame so I gave up and made a simpler game that did
+ * not utilize procedural generation.
+ * My creative tilt is the creation of a UIManager class that utilizes
+ * a menu inheritance hierarchy that can be seen in the src/menus folder
+ * and src/UIManager.js. Both this and my custom button class utilize the
+ * Phaser events system to communicate between concurrently running scenes.
+ * 
+ * My second creative tilt is a twist on the endless runner format similar
+ * to older 'endless runner' games that utilized endless gameplay without a 
+ * running player character. I make the character match the color of the 
+ * projectiles in order to destroy them which makes the gameplay similar to
+ * a rythm game. I also utilize an easing function for both enemy speed scaling
+ * and for the background visuals which smoothly shift up and down as the player moves.
+ */
+
+
 /**
  * @type{Phaser.Core.Config}
  */
