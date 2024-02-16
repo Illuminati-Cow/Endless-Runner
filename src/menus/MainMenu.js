@@ -50,5 +50,6 @@ class MainMenu extends Menu {
         this.add.text(width-width/15, 3*height/4+5, 'E', {fontFamily: 'Monospace', fontSize: '8.5vw'}).setOrigin(0.5);
 
         let button = new Button(this, 0, height/5, startButtonConfig.width, startButtonConfig.height, startButtonConfig.text, startButtonConfig.callback, undefined, 'center');
+        let credits = new Button(this, 0, 0, width/5, height/10, 'Credits', () => {UIManager.Instance.changeMenu('CreditsMenu')}, undefined, 'bottomcenter');
     }
 }
