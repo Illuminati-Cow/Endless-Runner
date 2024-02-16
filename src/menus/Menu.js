@@ -1,22 +1,32 @@
 "use strict"
-
 class Menu extends Phaser.Scene {
-    /**
-     * The scene manager for the game.
-     * @type{Phaser.Scenes.ScenePlugin}
-     */
-    static sceneManagerPlugin
     constructor(sceneName) {
-        super({key: sceneName, visible: false, active: false})
+        super({key: sceneName, visible: false});
+        this.name = sceneName;
+        this._scene = game.scene.systemScene.scene;
+        this._events = game.scene.systemScene.events;
     }
 
+    init() {
+        this._events.emit('menucreated', this)
+    }
+
+    /**
+     * Do not override without still calling this function
+     */
     openMenu() {
-        Menu.sceneManagerPlugin.setActive(true, this);
-        Menu.sceneManagerPlugin.setVisible(true, this);
+        this._scene.wake(this.name);
+        this._scene.setVisible(true, this.name);
+        //Menu.sceneManagerPlugin.bringToTop(this.name);
+        //console.log(this.name);
     }
 
+    /**
+     * Do not override without still calling this function
+     */
     closeMenu() {
-        Menu.sceneManagerPlugin.setVisible(false, this);
-        Menu.sceneManagerPlugin.setActive(false, this);
+        this._scene.setVisible(false, this.name);
+        //Menu.sceneManagerPlugin.setActive(false, this);
+        this._scene.sleep(this.name);
     }
 }

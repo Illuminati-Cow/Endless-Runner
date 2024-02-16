@@ -20,29 +20,45 @@ class UIManager {
      * Represents the UIManager class. If an instance of the manager already exists, this instance will be nullified.
      * @constructor
      * @param {Phaser.Scenes.ScenePlugin} sceneManagerPlugin - The scene manager plugin
+     * @param {Phaser.Events.EventEmitter} eventManagerPlugin
      * @param {Object} menus - The dictionary of menus.
      * @param {Object} huds - The dictionary of HUDs.
-     * @param {string} [startingMenu=0] - The starting menu. Defaults to the first menu in menus.
+     * @param {string} [startingMenu] - The starting menu. Defaults to an empty menu.
      * @param {string} [startingHUD=null] - The starting HUD. Defaults to null.
      */
-    constructor(sceneManagerPlugin, menus, huds, startingMenu=0, startingHUD=null) {
+    constructor(sceneManagerPlugin, eventManagerPlugin, menus, huds, startingMenu=null, startingHUD=null) {
         if (this.Instance != null) {
             return null
         } else {
-            UIManager.Instance = this
+            UIManager.Instance = this;
         }
         this.#menu = menus
+        // Add None menu
+        this.#menu.None = new None();
         this.#hud = huds
         this.#currentHUD = startingHUD
-        this.#currentMenu = this.#menu[startingMenu]
-        Menu.sceneManagerPlugin = sceneManagerPlugin
+        if (startingMenu)
+            this.#currentMenu = this.#menu[startingMenu]
+        else
+            this.#currentMenu = this.#menu['None'];
+        // Launch all menus and huds
         for (let menu in this.#menu) {
-            sceneManagerPlugin.launch(menu)
+            game.scene.systemScene.scene.launch(menu);
+            console.log(menu);
         }
         for (let hud in this.#hud) {
 
         }
-        this.#currentMenu.openMenu()        
+        // Listen for menus being loaded and close them unless starting menu
+        game.scene.systemScene.events.addListener('menucreated', (menu) => {
+            console.log(menu)
+            if (menu.name == this.#currentMenu.name) {
+                menu.openMenu();
+            }
+            else {
+                menu.closeMenu();
+            }
+        }, game.scene.systemScene);
     }
 
     /**
@@ -52,9 +68,9 @@ class UIManager {
      */
     changeMenu(newMenu) {
         if (newMenu in this.#menu) {
-            this.#currentMenu.closeMenu()
+            this.#currentMenu.closeMenu();
             this.#currentMenu = this.#menu[newMenu]
-            this.#currentMenu.openMenu()
+            this.#currentMenu.openMenu();   
             return true
         }
         else

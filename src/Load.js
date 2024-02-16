@@ -40,22 +40,19 @@ class Load extends Phaser.Scene {
         this.load.on('complete', () => {this.scene.stop(this)})
         // Load assets
         this.load.path = './assets/'
-
-        // Physics Shapes 
-        // Reference: https://github.com/phaserjs/examples/blob/master/public/src/physics/matterjs/advanced%20shape%20creation.js
-        this.load.json('terrain-shapes', 'physics/terrain-shapes.json');
-        // Player Sprites
-        //this.load.spritesheet('player-sheet', 'player.png')
+        this.load.image('planet', 'purple-planet.png');
+        this.load.image('stars', 'sun-space.png');
+        // Texture atlas
+        this.load.atlas('sheet', 'spritesheet.png', 'spritesheet.json');
         this.load.image('button', 'button.png');
-        this.load.image('red-arrow', 'red-arrow.png');
-        this.load.image('red-particle', 'red-particle.png')
+        this.load.image('enemy', 'enemy.png');
     }
     /**
      * Creates all global assets needed in the game.
      */
     create() {
         // Create Manager Singletons
-        new UIManager(this.scene, {
+        new UIManager(this.scene, this.events, {
             MainMenu: new MainMenu(),
             CreditsMenu: new CreditsMenu(),
             PauseMenu: new PauseMenu(),
@@ -66,11 +63,68 @@ class Load extends Phaser.Scene {
         new SFXManager({
             // ADD SFX
         }); 
-        // this.anims.create({
-        //     key: 'walk-down',
-        //     frameRate: 8,
-        //     repeat: -1,
-        //     frames: this.anims.generateFrameNumbers('hero', { start: 0, end: 3 }),
-        // })
+        // Create Animations
+        this.anims.create({
+            key: 'morph',
+            frameRate: 12,
+            repeat: 0,
+            frames: this.anims.generateFrameNames('sheet', {prefix: 'morph', start:0, end: 2, zeroPad:1})
+        });
+        // Create textures
+        this.textures.addSpriteSheetFromAtlas(
+            'red-particle',
+            {
+                atlas: 'sheet',
+                frame: 'fire-particle',
+                frameWidth: 16,
+                frameHeight: 16,
+            }
+        );
+        this.textures.addSpriteSheetFromAtlas(
+            'green-particle',
+            {
+                atlas: 'sheet',
+                frame: 'leaf-particle',
+                frameWidth: 16,
+                frameHeight: 16,
+            }
+        );
+        this.textures.addSpriteSheetFromAtlas(
+            'blue-particle',
+            {
+                atlas: 'sheet',
+                frame: 'water-particle',
+                frameWidth: 16,
+                frameHeight: 16,
+            }
+        );
+        this.textures.addSpriteSheetFromAtlas(
+            'red-arrow',
+            {
+                atlas: 'sheet',
+                frame: 'red-arrow',
+                frameWidth: 29,
+                frameHeight: 28,
+            }
+        );
+        this.textures.addSpriteSheetFromAtlas(
+            'green-arrow',
+            {
+                atlas: 'sheet',
+                frame: 'green-arrow',
+                frameWidth: 31,
+                frameHeight: 26,
+            }
+        );
+        this.textures.addSpriteSheetFromAtlas(
+            'blue-arrow',
+            {
+                atlas: 'sheet',
+                frame: 'blue-arrow',
+                frameWidth: 27,
+                frameHeight: 28,
+            }
+        );
+        
     }
 }
