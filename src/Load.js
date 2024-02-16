@@ -46,6 +46,12 @@ class Load extends Phaser.Scene {
         this.load.atlas('sheet', 'spritesheet.png', 'spritesheet.json');
         this.load.image('button', 'button.png');
         this.load.image('enemy', 'enemy.png');
+        // Load SFX
+        this.load.audio('hover', 'sfx/hover.wav');
+        this.load.audio('click', 'sfx/click.wav');
+        this.load.audio('explosion', 'sfx/explosion.wav');
+        this.load.audio('game-over', 'sfx/game-over.wav');
+        this.load.audio('bg-music', 'sfx/space-battle.mp3');    
     }
     /**
      * Creates all global assets needed in the game.
@@ -60,9 +66,13 @@ class Load extends Phaser.Scene {
         }, {
             // ADD HUD
         }, 'MainMenu');
-        new SFXManager({
-            // ADD SFX
-        }); 
+        // new SFXManager([
+        //     'hover',
+        //     'click',
+        //     'explosion',
+        //     'game-over',
+        //     'bg-music'
+        // ]); 
         // Create Animations
         this.anims.create({
             key: 'morph',

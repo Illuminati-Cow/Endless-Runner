@@ -9,6 +9,9 @@ class Play extends Phaser.Scene {
         this.foreground = this.add.image(gameSettings.width/2, gameSettings.height/2, 'planet').setScale(1.5);
         this.background.startPos = {x: this.background.x, y: this.background.y};
         this.foreground.startPos = {x: this.foreground.x, y: this.foreground.y};
+        this.tutorialText = this.add.text(gameSettings.width/2, gameSettings.height/4,
+            "Match the color of the attacks\nto destroy them"
+        ).setOrigin(0.5);
         this.player = new Player(this, gameSettings.spawnLocation.x, gameSettings.spawnLocation.y);
         this.timeAlive = 0;
         this.startTime = 0;
@@ -53,9 +56,22 @@ class Play extends Phaser.Scene {
                 console.log("Game Started");
             }
         });
+        // Sounds
+        let hover = this.sound.add('hover');
+        let click = this.sound.add('click');
+        this.gameoversfx = this.sound.add('game-over');
+        this.music = this.sound.add('bg-music');
+        this.music.volume = 0.25;
+        this.explosionsfx = this.sound.add('explosion');
+        this.game.scene.systemScene.events.addListener('buttonhover', ()=>{
+            hover.play();
+        });
+        this.game.scene.systemScene.events.addListener('buttonclick', ()=>{
+            click.play();
+        }); 
         // Event listener for restarting game
         this.game.scene.systemScene.events.addListener('restart', ()=>this.start());
-        this.start()
+        this.start();
     }
     
     start() {
@@ -68,10 +84,13 @@ class Play extends Phaser.Scene {
         this.startInput = false;
         this.enemySpawnTime = this.startTime + this.enemySpawnInterval;
         this.timeAliveCounter.text = "0.0";
+        this.tutorialText.alpha = 1;
+        this.music.play();
     }
 
     update() {
         if (this.player.active) {
+            this.tutorialText.alpha -= this.tutorialText.alpha * .01
             this.player.update()
             let time = Math.floor((Date.now() - this.startTime) / 100) / 10;
             this.timeAlive = time;
@@ -87,6 +106,8 @@ class Play extends Phaser.Scene {
     }
 
     gameOver() {
+        this.gameoversfx.play();
+        this.music.stop();
         this.game.scene.systemScene.events.emit('gameover', this.timeAliveCounter.text);
         this.player.kill();
         this.player.y = 10000;
@@ -103,6 +124,7 @@ class Play extends Phaser.Scene {
     playerCollisionHandler(player, enemy) {
         if (player.color == enemy.color) {
             enemy.despawn();
+            this.explosionsfx.play();
             this.time.delayedCall(
                 this.enemyRespawnDelay.min+Math.random()*(this.enemyRespawnDelay.max-this.enemyRespawnDelay.min),
                 enemy.spawn()

@@ -44,14 +44,12 @@ class UIManager {
         // Launch all menus and huds
         for (let menu in this.#menu) {
             game.scene.systemScene.scene.launch(menu);
-            console.log(menu);
         }
         for (let hud in this.#hud) {
 
         }
         // Listen for menus being loaded and close them unless starting menu
         game.scene.systemScene.events.addListener('menucreated', (menu) => {
-            console.log(menu)
             if (menu.name == this.#currentMenu.name) {
                 menu.openMenu();
             }
